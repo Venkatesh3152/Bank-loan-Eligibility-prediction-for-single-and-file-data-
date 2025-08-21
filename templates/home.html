@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HV PROJECT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home_style.css') }}">
+</head>
+<body>
+    <div class="bgAnimation"></div>
+    <div class="background-boxes">
+      <script>
+        for (let i = 0; i < 600; i++) {
+          document.write('<div></div>');
+        }
+      </script>
+    </div>
+    <div class="container">
+        <nav>
+            <h1><span>HV </span>PROJECT</h1>
+            <ul>
+                <li ><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+        </nav>
+        <section>
+            <div class="textBox">
+                <h1><span>BANK LOAN</span> ELIGIBILITY PREDICTION</h1>
+                <p>USING MACHINE LEARING </p>
+                <a href="/single"><button class="homeBtn" style="--i:#fff;">Single Prediction</button></a>
+                <a href="/index"><button class="homeBtn" style="--i:#00bfff;">File Prediction</button></a>
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+
+
+

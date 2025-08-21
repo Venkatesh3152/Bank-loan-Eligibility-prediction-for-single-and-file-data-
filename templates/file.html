@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Prediction App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='file_style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Loan Eligibility Prediction for File </h1>
+        
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="file" id="file-input" name="file" accept=".csv, .xls, .xlsx">
+            <button type="button" onclick="previewFile()">Preview</button>
+            <button type="button" onclick="predictFile()">Predict</button>
+        </form>
+
+        <div id="preview-container" style="display: none;">
+            <h3>File Preview</h3>
+            <div class="table-wrapper">
+                <table id="preview-table">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>no_of_dependents</th>
+                            <th>education</th>
+                            <th>self_employed</th>
+                            <th>income_annum</th>
+                            <th>loan_amount</th>
+                            <th>loan_term</th>
+                            <th>cibil_score</th>
+                            <th>Assets</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="prediction-container" style="display: none;">
+            <h3>Predicted Results</h3>
+            <div class="table-wrapper">
+                <table id="prediction-table">
+                    <thead>
+                        <tr>
+                            <th>name</th>
+                            <th>no_of_dependents</th>
+                            <th>education</th>
+                            <th>self_employed</th>
+                            <th>income_annum</th>
+                            <th>loan_amount</th>
+                            <th>loan_term</th>
+                            <th>cibil_score</th>
+                            <th>Assets</th>
+                            <th>loan_status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <button id="download-btn" onclick="downloadFile()">Download Predictions</button>
+        </div>
+    </div>
+    
+    <script>
+        function previewFile() {
+            let formData = new FormData(document.getElementById('upload-form'));
+            fetch('/preview', { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.preview) {
+                    populateTable(data.preview, 'preview-table');
+                    document.getElementById("preview-container").style.display = "block";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function predictFile() {
+            let formData = new FormData(document.getElementById('upload-form'));
+            fetch('/predict', { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.predictions) {
+                    populateTable(data.predictions, 'prediction-table');
+                    document.getElementById("prediction-container").style.display = "block";
+
+                    if (data.download_url) {
+                        document.getElementById("download-btn").style.display = "block";
+                    }
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function populateTable(data, tableId) {
+            let table = document.getElementById(tableId).querySelector("tbody");
+            table.innerHTML = "";
+
+            let orderedColumns = ["name", "no_of_dependents", "education", "self_employed", "income_annum", 
+                                  "loan_amount", "loan_term", "cibil_score", "Assets"];
+            if (tableId === "prediction-table") {
+                orderedColumns.push("loan_status");
+            }
+
+            data.forEach(row => {
+                let tr = document.createElement("tr");
+                orderedColumns.forEach(col => {
+                    let td = document.createElement("td");
+                    td.textContent = row[col] !== undefined && row[col] !== "" ? row[col] : "N/A";
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+        }
+
+        function downloadFile() {
+            window.location.href = "/download";
+        }
+    </script>
+</body>
+</html>

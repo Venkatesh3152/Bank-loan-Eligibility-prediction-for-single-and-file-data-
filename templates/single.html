@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Loan Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='single_style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Loan Eligibility Prediction</h1>
+
+        <form action="/predict_single" method="GET" id="loanForm">
+           <h3> <label for="no_of_dep">Number of Dependents:</label>
+            <input type="number" id="no_of_dep" name="no_of_dep" min="0" required value="{{ form_data.get('no_of_dep', '') }}">
+
+            <label for="education">Education:</label>
+            <select id="education" name="education" required>
+                <option value="Graduated" {% if form_data.get('education') == 'Graduated' %}selected{% endif %}>Graduated</option>
+                <option value="Not Graduated" {% if form_data.get('education') == 'Not Graduated' %}selected{% endif %}>Not Graduated</option>
+            </select>
+
+            <label for="self_employed">Self Employed:</label>
+            <select id="self_employed" name="self_employed" required>
+                <option value="No" {% if form_data.get('self_employed') == 'No' %}selected{% endif %}>No</option>
+                <option value="Yes" {% if form_data.get('self_employed') == 'Yes' %}selected{% endif %}>Yes</option>
+            </select>
+
+            <label for="income_annum">Annual Income:</label>
+            <input type="number" id="income_annum" name="income_annum" min="1000" required value="{{ form_data.get('income_annum', '') }}">
+
+            <label for="loan_amount">Loan Amount:</label>
+            <input type="number" id="loan_amount" name="loan_amount" min="500" required value="{{ form_data.get('loan_amount', '') }}">
+
+            <label for="loan_term">Loan Duration (months):</label>
+            <input type="number" id="loan_term" name="loan_term" min="1" required value="{{ form_data.get('loan_term', '') }}">
+
+            <label for="cibil_score">CIBIL Score:</label>
+            <input type="number" id="cibil_score" name="cibil_score" min="300" max="900" required value="{{ form_data.get('cibil_score', '') }}">
+
+            <label for="assets">Assets Value:</label>
+            <input type="number" id="assets" name="assets" min="0" required value="{{ form_data.get('assets', '') }}">
+        </h3>
+            <div class="button-container">
+                <button type="submit">Predict</button>
+                <button type="submit" name="clear" value="true">Clear</button>
+            </div>
+        </form>
+
+
+        {% if result %}
+            <div class="result-box {% if 'Approved' in result %}approved{% else %}rejected{% endif %}">
+                <p>{{ result }}</p>
+            </div>
+            {% if suggestion %}
+                <p class="suggestion"><strong>Suggestion:</strong> {{ suggestion }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+</body>
+</html>

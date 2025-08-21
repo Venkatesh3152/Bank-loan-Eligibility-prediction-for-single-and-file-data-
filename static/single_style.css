@@ -1,0 +1,86 @@
+body {
+    display: flex;
+    background-image: url('bank.jpg');
+    background-repeat:no-repeat;
+    justify-content: center;
+    background-size: cover;
+    align-items: center;
+    min-height: 100vh;
+   /* background: #000;*/
+    position: relative;
+
+}
+
+/* Loan Form Container */
+.container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    width: 500px;
+    height: 850px;
+    z-index: 1; /* Keeps content above animation */
+    text-align: center;
+}
+
+h2 {
+    color: #000;
+}
+
+form {
+    text-align: left;
+    margin-top: 10px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.clear-btn {
+    background-color: #f44336;
+}
+
+.clear-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Result Box */
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.approved {
+    background-color: #c8e6c9;
+    color: green;
+}
+
+.rejected {
+    background-color: #ffcdd2;
+    color: red;
+}
+
+.suggestion {
+    background-color:white;
+    font-size: 30px;
+    color: #050505;
+}
